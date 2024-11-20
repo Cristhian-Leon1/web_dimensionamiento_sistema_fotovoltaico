@@ -59,7 +59,7 @@ class PaginaInicio extends StatelessWidget {
                     contentBackgroundColor: Colors.grey[300],
                     isOpen: providerInicio.seccionesAbiertas[1],
                     header: const Text(
-                      'Consumo de equipos electrónicos',
+                      'Consumo DC de equipos electrónicos',
                       style: TextStyle(
                         color: Colors.white,
                       ),

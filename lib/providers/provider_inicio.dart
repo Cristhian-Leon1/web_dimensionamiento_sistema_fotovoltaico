@@ -3,6 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:web_dimensionamiento_sistema_fotovoltaico/modelos/modelo_instalacion.dart';
 
+class CardEquipoData {
+  final TextEditingController zonaController = TextEditingController();
+  final TextEditingController equipoController = TextEditingController();
+  final TextEditingController cantidadController = TextEditingController();
+  final TextEditingController potenciaController = TextEditingController();
+  final TextEditingController tiempoController = TextEditingController();
+  final ValueNotifier<double> potenciaTotal = ValueNotifier<double>(0);
+  final ValueNotifier<double> consumoDiario = ValueNotifier<double>(0);
+
+  CardEquipoData() {
+    cantidadController.addListener(_updatePotenciaTotal);
+    potenciaController.addListener(_updatePotenciaTotal);
+    tiempoController.addListener(_updateConsumoDiario);
+  }
+
+  void _updatePotenciaTotal() {
+    final int cantidad = int.tryParse(cantidadController.text) ?? 0;
+    final double potencia = double.tryParse(potenciaController.text) ?? 0;
+    potenciaTotal.value = cantidad * potencia;
+  }
+
+  void _updateConsumoDiario() {
+    final double tiempo = double.tryParse(tiempoController.text) ?? 0;
+    consumoDiario.value = potenciaTotal.value * tiempo;
+  }
+}
+
 class ProviderInicio with ChangeNotifier {
   final List<bool> _seccionesAbiertas = [false, false, false];
   final ModeloInstalacion _instalacion = ModeloInstalacion();
@@ -11,14 +38,28 @@ class ProviderInicio with ChangeNotifier {
   final List<String> _departamentos = [];
   final Map<String, List<String>> _municipios = {};
 
+  final List<CardEquipoData> _equipos = [];
+  List<CardEquipoData> get equipos => _equipos;
+
   String? _ampliacionesFuturas;
   String? get ampliacionesFuturas => _ampliacionesFuturas;
+
+  final ValueNotifier<double> _potenciaTotal = ValueNotifier<double>(0);
+  final ValueNotifier<double> _consumoDiario = ValueNotifier<double>(0);
+
+  ValueNotifier<double> get potenciaTotal => _potenciaTotal;
+  ValueNotifier<double> get consumoDiario => _consumoDiario;
 
   final TextEditingController voltajeDController = TextEditingController();
   final TextEditingController voltajeAController = TextEditingController();
   final TextEditingController adultosController = TextEditingController();
   final TextEditingController jovenesController = TextEditingController();
   final TextEditingController ninosController = TextEditingController();
+  final TextEditingController zonaController = TextEditingController();
+  final TextEditingController equipoController = TextEditingController();
+  final TextEditingController cantidadController = TextEditingController();
+  final TextEditingController potenciaController = TextEditingController();
+  final TextEditingController tiempoController = TextEditingController();
 
   List<bool> get seccionesAbiertas => _seccionesAbiertas;
   ModeloInstalacion get instalacion => _instalacion;
@@ -29,6 +70,7 @@ class ProviderInicio with ChangeNotifier {
 
   ProviderInicio() {
     _cargarDatos();
+    _initListeners();
   }
 
   Future<void> _cargarDatos() async {
@@ -43,6 +85,23 @@ class ProviderInicio with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  void _initListeners() {
+    cantidadController.addListener(_updatePotenciaTotal);
+    potenciaController.addListener(_updatePotenciaTotal);
+    tiempoController.addListener(_updateConsumoDiario);
+  }
+
+  void _updatePotenciaTotal() {
+    final int cantidad = int.tryParse(cantidadController.text) ?? 0;
+    final double potencia = double.tryParse(potenciaController.text) ?? 0;
+    _potenciaTotal.value = cantidad * potencia;
+  }
+
+  void _updateConsumoDiario() {
+    final double tiempo = double.tryParse(tiempoController.text) ?? 0;
+    _consumoDiario.value = _potenciaTotal.value * tiempo;
   }
 
   void alternarSeccion(int indice) {
@@ -75,6 +134,16 @@ class ProviderInicio with ChangeNotifier {
 
   void seleccionarAmpliacionesFuturas(String? valor) {
     _ampliacionesFuturas = valor;
+    notifyListeners();
+  }
+
+  void addEquipo() {
+    _equipos.add(CardEquipoData());
+    notifyListeners();
+  }
+
+  void removeEquipo(int index) {
+    _equipos.removeAt(index);
     notifyListeners();
   }
 
