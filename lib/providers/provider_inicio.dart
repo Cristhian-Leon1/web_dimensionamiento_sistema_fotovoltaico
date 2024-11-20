@@ -46,9 +46,11 @@ class ProviderInicio with ChangeNotifier {
 
   final ValueNotifier<double> _potenciaTotal = ValueNotifier<double>(0);
   final ValueNotifier<double> _consumoDiario = ValueNotifier<double>(0);
+  final ValueNotifier<double> _consumoTotalDiario = ValueNotifier<double>(0);
 
   ValueNotifier<double> get potenciaTotal => _potenciaTotal;
   ValueNotifier<double> get consumoDiario => _consumoDiario;
+  ValueNotifier<double> get consumoTotalDiario => _consumoTotalDiario;
 
   final TextEditingController voltajeDController = TextEditingController();
   final TextEditingController voltajeAController = TextEditingController();
@@ -104,6 +106,10 @@ class ProviderInicio with ChangeNotifier {
     _consumoDiario.value = _potenciaTotal.value * tiempo;
   }
 
+  void _updateConsumoTotalDiario() {
+    _consumoTotalDiario.value = _equipos.fold(0, (sum, equipo) => sum + equipo.consumoDiario.value);
+  }
+
   void alternarSeccion(int indice) {
     for (int i = 0; i < _seccionesAbiertas.length; i++) {
       _seccionesAbiertas[i] = i == indice ? !_seccionesAbiertas[i] : false;
@@ -138,12 +144,17 @@ class ProviderInicio with ChangeNotifier {
   }
 
   void addEquipo() {
-    _equipos.add(CardEquipoData());
+    final newEquipo = CardEquipoData();
+    newEquipo.consumoDiario.addListener(_updateConsumoTotalDiario);
+    _equipos.add(newEquipo);
+    _updateConsumoTotalDiario();
     notifyListeners();
   }
 
   void removeEquipo(int index) {
+    _equipos[index].consumoDiario.removeListener(_updateConsumoTotalDiario);
     _equipos.removeAt(index);
+    _updateConsumoTotalDiario();
     notifyListeners();
   }
 

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/provider_inicio.dart';
+import '../../providers/provider_inicio.dart' as inicio;
+import '../../providers/provider_consumo_AC.dart' as ac;
 
 class CardEquipos extends StatelessWidget {
-  final CardEquipoData data;
+  final dynamic data; // Use dynamic to accept both types of CardEquipoData
   final int index;
+  final bool isAC;
 
-  const CardEquipos({required this.data, super.key, required this.index});
+  const CardEquipos({required this.data, required this.index, required this.isAC, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final providerInicio = Provider.of<ProviderInicio>(context, listen: false);
-    
+    final provider = isAC ? Provider.of<ac.ProviderConsumoAC>(context, listen: false) : Provider.of<inicio.ProviderInicio>(context, listen: false);
+
     return Card(
       color: Colors.grey[200],
       elevation: 3,
@@ -225,7 +227,11 @@ class CardEquipos extends StatelessWidget {
                 child: Center(
                   child: IconButton(
                     onPressed: () {
-                      providerInicio.removeEquipo(index);
+                      if (isAC) {
+                        (provider as ac.ProviderConsumoAC).removeEquipo(index);
+                      } else {
+                        (provider as inicio.ProviderInicio).removeEquipo(index);
+                      }
                     },
                     icon: const Icon(Icons.delete_forever_outlined, size: 20),
                   ),

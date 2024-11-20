@@ -59,25 +59,25 @@ class PaginaInicio extends StatelessWidget {
                     contentBackgroundColor: Colors.grey[300],
                     isOpen: providerInicio.seccionesAbiertas[1],
                     header: const Text(
-                      'Consumo DC de equipos electrónicos',
+                      'Consumo DC de equipos electrónicos por día',
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
-                    content: const ContenedorConsumoEquipos(),
+                    content: const ContenedorConsumoEquipos(isAC: false),
                     onOpenSection: () => providerInicio.alternarSeccion(1),
                   ),
                   AccordionSection(
                     headerBackgroundColor: Colors.blueGrey,
-                    contentBackgroundColor: Colors.orangeAccent,
+                    contentBackgroundColor: Colors.grey[300],
                     isOpen: providerInicio.seccionesAbiertas[2],
                     header: const Text(
-                      'Item 3',
+                      'Consumo AC de equipos electrónicos por día',
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
-                    content: const Text('Contenido del Item 3'),
+                    content: const ContenedorConsumoEquipos(isAC: true),
                     onOpenSection: () => providerInicio.alternarSeccion(2),
                   ),
                 ],

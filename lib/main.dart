@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:web_dimensionamiento_sistema_fotovoltaico/providers/provider_consumo_AC.dart';
 import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/pagina_inicio.dart';
 import 'package:web_dimensionamiento_sistema_fotovoltaico/providers/provider_inicio.dart';
 
@@ -8,6 +9,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProviderInicio()),
+        ChangeNotifierProvider(create: (_) => ProviderConsumoAC()),
       ],
       child: const MyApp(),
     ),
