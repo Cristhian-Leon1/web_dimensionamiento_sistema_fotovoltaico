@@ -31,26 +31,30 @@ class CardEquipoData {
 }
 
 class ProviderInicio with ChangeNotifier {
-  final List<bool> _seccionesAbiertas = [false, false, false];
+  final List<bool> _seccionesAbiertas = [false, false, false, false, false];
   final ModeloInstalacion _instalacion = ModeloInstalacion();
   final ModeloInstalacion _tempInstalacion = ModeloInstalacion();
 
   final List<String> _departamentos = [];
   final Map<String, List<String>> _municipios = {};
 
-  final List<CardEquipoData> _equipos = [];
-  List<CardEquipoData> get equipos => _equipos;
+  final List<CardEquipoData> _equiposDC = [];
+  final List<CardEquipoData> _equiposAC = [];
+  List<CardEquipoData> get equiposDC => _equiposDC;
+  List<CardEquipoData> get equiposAC => _equiposAC;
 
   String? _ampliacionesFuturas;
   String? get ampliacionesFuturas => _ampliacionesFuturas;
 
   final ValueNotifier<double> _potenciaTotal = ValueNotifier<double>(0);
   final ValueNotifier<double> _consumoDiario = ValueNotifier<double>(0);
-  final ValueNotifier<double> _consumoTotalDiario = ValueNotifier<double>(0);
+  final ValueNotifier<double> _consumoTotalDiarioDC = ValueNotifier<double>(0);
+  final ValueNotifier<double> _consumoTotalDiarioAC = ValueNotifier<double>(0);
 
   ValueNotifier<double> get potenciaTotal => _potenciaTotal;
   ValueNotifier<double> get consumoDiario => _consumoDiario;
-  ValueNotifier<double> get consumoTotalDiario => _consumoTotalDiario;
+  ValueNotifier<double> get consumoTotalDiarioDC => _consumoTotalDiarioDC;
+  ValueNotifier<double> get consumoTotalDiarioAC => _consumoTotalDiarioAC;
 
   final TextEditingController voltajeDController = TextEditingController();
   final TextEditingController voltajeAController = TextEditingController();
@@ -106,8 +110,12 @@ class ProviderInicio with ChangeNotifier {
     _consumoDiario.value = _potenciaTotal.value * tiempo;
   }
 
-  void _updateConsumoTotalDiario() {
-    _consumoTotalDiario.value = _equipos.fold(0, (sum, equipo) => sum + equipo.consumoDiario.value);
+  void _updateConsumoTotalDiarioDC() {
+    _consumoTotalDiarioDC.value = _equiposDC.fold(0, (sum, equipo) => sum + equipo.consumoDiario.value);
+  }
+
+  void _updateConsumoTotalDiarioAC() {
+    _consumoTotalDiarioAC.value = _equiposAC.fold(0, (sum, equipo) => sum + equipo.consumoDiario.value);
   }
 
   void alternarSeccion(int indice) {
@@ -143,18 +151,33 @@ class ProviderInicio with ChangeNotifier {
     notifyListeners();
   }
 
-  void addEquipo() {
+  void addEquipoDC() {
     final newEquipo = CardEquipoData();
-    newEquipo.consumoDiario.addListener(_updateConsumoTotalDiario);
-    _equipos.add(newEquipo);
-    _updateConsumoTotalDiario();
+    newEquipo.consumoDiario.addListener(_updateConsumoTotalDiarioDC);
+    _equiposDC.add(newEquipo);
+    _updateConsumoTotalDiarioDC();
     notifyListeners();
   }
 
-  void removeEquipo(int index) {
-    _equipos[index].consumoDiario.removeListener(_updateConsumoTotalDiario);
-    _equipos.removeAt(index);
-    _updateConsumoTotalDiario();
+  void addEquipoAC() {
+    final newEquipo = CardEquipoData();
+    newEquipo.consumoDiario.addListener(_updateConsumoTotalDiarioAC);
+    _equiposAC.add(newEquipo);
+    _updateConsumoTotalDiarioAC();
+    notifyListeners();
+  }
+
+  void removeEquipoDC(int index) {
+    _equiposDC[index].consumoDiario.removeListener(_updateConsumoTotalDiarioDC);
+    _equiposDC.removeAt(index);
+    _updateConsumoTotalDiarioDC();
+    notifyListeners();
+  }
+
+  void removeEquipoAC(int index) {
+    _equiposAC[index].consumoDiario.removeListener(_updateConsumoTotalDiarioAC);
+    _equiposAC.removeAt(index);
+    _updateConsumoTotalDiarioAC();
     notifyListeners();
   }
 

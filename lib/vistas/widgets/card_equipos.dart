@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/widgets/textfield_reutilizable.dart';
 import '../../providers/provider_inicio.dart' as inicio;
-import '../../providers/provider_consumo_AC.dart' as ac;
 
 class CardEquipos extends StatelessWidget {
-  final dynamic data; // Use dynamic to accept both types of CardEquipoData
+  final dynamic data;
   final int index;
   final bool isAC;
 
@@ -12,7 +12,7 @@ class CardEquipos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = isAC ? Provider.of<ac.ProviderConsumoAC>(context, listen: false) : Provider.of<inicio.ProviderInicio>(context, listen: false);
+    final provider = Provider.of<inicio.ProviderInicio>(context, listen: false);
 
     return Card(
       color: Colors.grey[200],
@@ -29,24 +29,10 @@ class CardEquipos extends StatelessWidget {
               flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Zona:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextField(
-                      controller: data.zonaController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: '...',
-                      ),
-                    ),
-                  ],
+                child: CustomTextField(
+                  labelText: 'Zona:',
+                  hintText: '...',
+                  controller: data.zonaController,
                 ),
               ),
             ),
@@ -54,24 +40,10 @@ class CardEquipos extends StatelessWidget {
               flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Equipo:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextField(
-                      controller: data.equipoController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: '...',
-                      ),
-                    ),
-                  ],
+                child: CustomTextField(
+                  labelText: 'Equipo:',
+                  hintText: '...',
+                  controller: data.equipoController,
                 ),
               ),
             ),
@@ -79,24 +51,10 @@ class CardEquipos extends StatelessWidget {
               flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Cantidad:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextField(
-                      controller: data.cantidadController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: 'Cantidad equipos',
-                      ),
-                    ),
-                  ],
+                child: CustomTextField(
+                  labelText: 'Cantidad:',
+                  hintText: '...',
+                  controller: data.cantidadController,
                 ),
               ),
             ),
@@ -104,24 +62,10 @@ class CardEquipos extends StatelessWidget {
               flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Potencia (W):',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextField(
-                      controller: data.potenciaController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: '...',
-                      ),
-                    ),
-                  ],
+                child: CustomTextField(
+                  labelText: 'Potencia (W):',
+                  hintText: '...',
+                  controller: data.potenciaController,
                 ),
               ),
             ),
@@ -129,24 +73,10 @@ class CardEquipos extends StatelessWidget {
               flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Tiempo H/Día:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextField(
-                      controller: data.tiempoController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: '...',
-                      ),
-                    ),
-                  ],
+                child: CustomTextField(
+                  labelText: 'Tiempo H/Día:',
+                  hintText: '...',
+                  controller: data.tiempoController,
                 ),
               ),
             ),
@@ -228,9 +158,9 @@ class CardEquipos extends StatelessWidget {
                   child: IconButton(
                     onPressed: () {
                       if (isAC) {
-                        (provider as ac.ProviderConsumoAC).removeEquipo(index);
+                        provider.removeEquipoAC(index);
                       } else {
-                        (provider as inicio.ProviderInicio).removeEquipo(index);
+                        provider.removeEquipoDC(index);
                       }
                     },
                     icon: const Icon(Icons.delete_forever_outlined, size: 20),

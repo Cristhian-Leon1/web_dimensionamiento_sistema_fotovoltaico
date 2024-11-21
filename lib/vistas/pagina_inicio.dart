@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:accordion/accordion.dart';
 import 'package:web_dimensionamiento_sistema_fotovoltaico/providers/provider_inicio.dart';
-import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/widgets/contenedor_consumo_equipos.dart';
-import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/widgets/contenedor_datos_tecnicos.dart';
+import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_calculos.dart';
+import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_consumo_equipos.dart';
+import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_datos_tecnicos.dart';
+import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_energia_acumulador.dart';
 
 class PaginaInicio extends StatelessWidget {
   const PaginaInicio({super.key});
@@ -79,6 +81,32 @@ class PaginaInicio extends StatelessWidget {
                     ),
                     content: const ContenedorConsumoEquipos(isAC: true),
                     onOpenSection: () => providerInicio.alternarSeccion(2),
+                  ),
+                  AccordionSection(
+                    headerBackgroundColor: Colors.blueGrey,
+                    contentBackgroundColor: Colors.grey[300],
+                    isOpen: providerInicio.seccionesAbiertas[3],
+                    header: const Text(
+                      'Consumo total, irradiancia y rendimiento general de la instalación',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    content: const ContenedorCalculos(),
+                    onOpenSection: () => providerInicio.alternarSeccion(3),
+                  ),
+                  AccordionSection(
+                    headerBackgroundColor: Colors.blueGrey,
+                    contentBackgroundColor: Colors.grey[300],
+                    isOpen: providerInicio.seccionesAbiertas[4],
+                    header: const Text(
+                      'Energía diaria y capacidad del acumulador',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    content: const ContenedorEnergiaAcumulador(),
+                    onOpenSection: () => providerInicio.alternarSeccion(4),
                   ),
                 ],
               ),
