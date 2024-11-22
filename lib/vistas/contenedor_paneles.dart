@@ -198,8 +198,7 @@ class ContenedorPaneles extends StatelessWidget {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 5),
-                                child:
-                                ContenedorVariable(
+                                child: ContenedorVariable(
                                   labelText: 'Icc generador (A):',
                                   valueNotifier: ValueNotifier(providerCalculos.iccGenerador),
                                 ),
@@ -213,14 +212,11 @@ class ContenedorPaneles extends StatelessWidget {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 5),
-                                child: Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child:
-                                    ContenedorVariable(
-                                      labelText: 'Corriente entrada regulador (A):',
-                                      valueNotifier: ValueNotifier(providerCalculos.iEntradaRegulador),
-                                    ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 5),
+                                  child: ContenedorVariable(
+                                    labelText: 'Corriente entrada regulador (A):',
+                                    valueNotifier: ValueNotifier(providerCalculos.iEntradaRegulador),
                                   ),
                                 ),
                               ),
