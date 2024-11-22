@@ -33,6 +33,7 @@ class ProviderCalculos with ChangeNotifier {
   final TextEditingController potenciaPicoPanelController = TextEditingController();
   final TextEditingController iccNominalPanelController = TextEditingController();
   final TextEditingController iPicoPanelController = TextEditingController();
+  final TextEditingController rendimientoInversorController = TextEditingController();
 
   double get consumoTotalDC => providerInicio.consumoTotalDiarioDC.value;
   double get consumoTotalAC => providerInicio.consumoTotalDiarioAC.value;
@@ -199,6 +200,7 @@ class ProviderCalculos with ChangeNotifier {
     potenciaPicoPanelController.addListener(notifyListeners);
     iccNominalPanelController.addListener(notifyListeners);
     iPicoPanelController.addListener(notifyListeners);
+    rendimientoInversorController.addListener(notifyListeners);
   }
 
   void updateValues() {

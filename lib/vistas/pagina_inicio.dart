@@ -8,6 +8,7 @@ import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_calc
 import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_consumo_equipos.dart';
 import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_datos_tecnicos.dart';
 import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_energia_acumulador.dart';
+import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_inversor.dart';
 import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/contenedor_paneles.dart';
 
 class PaginaInicio extends StatelessWidget {
@@ -135,6 +136,19 @@ class PaginaInicio extends StatelessWidget {
                     ),
                     content: const ContenedorPaneles(),
                     onOpenSection: () => providerInicio.alternarSeccion(6),
+                  ),
+                  AccordionSection(
+                    headerBackgroundColor: Colors.blueGrey,
+                    contentBackgroundColor: Colors.grey[300],
+                    isOpen: providerInicio.seccionesAbiertas[7],
+                    header: const Text(
+                      'Calculo de inversor',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    content: const ContenedorInversor(),
+                    onOpenSection: () => providerInicio.alternarSeccion(7),
                   ),
                 ],
               ),
