@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/widgets/dropdownd.dart';
+import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/widgets/textfield_reutilizable.dart';
 import 'package:web_dimensionamiento_sistema_fotovoltaico/vistas/widgets/widget_variable_fija.dart';
 
 import '../providers/provider_calculos.dart';
@@ -49,7 +50,32 @@ class ContenedorEnergiaAcumulador extends StatelessWidget {
                             ),
                           ),
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 15),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: ContenedorVariable(
+                              labelText: 'Capacidad total del sistema (Ah):',
+                              valueNotifier: ValueNotifier(providerCalculos.capacidadSistema),
+                            ),
+                          ),
+                        ),
+                        const Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 5),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                ),
             )
@@ -80,16 +106,39 @@ class ContenedorEnergiaAcumulador extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ContenedorVariable(
-                                  labelText: 'Capacidad total del sistema (Ah):',
-                                  valueNotifier: ValueNotifier(providerCalculos.capacidadUtil),
-                                ),
+                                CustomTextField(
+                                  labelText: 'Temperatura minima de trabajo (°C):',
+                                  hintText: '...',
+                                  controller: providerCalculos.tempMinController
+                                )
                               ],
                             ),
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 15),
+                    const Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5),
+                            child: SizedBox(height: 80)
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 5),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               )

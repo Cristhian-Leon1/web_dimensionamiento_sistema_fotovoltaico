@@ -31,7 +31,7 @@ class CardEquipoData {
 }
 
 class ProviderInicio with ChangeNotifier {
-  final List<bool> _seccionesAbiertas = [false, false, false, false, false];
+  final List<bool> _seccionesAbiertas = [false, false, false, false, false, false, false];
   final ModeloInstalacion _instalacion = ModeloInstalacion();
   final ModeloInstalacion _tempInstalacion = ModeloInstalacion();
 
